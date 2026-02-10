@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سؤال مهم 🌹</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffebee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        h1 { color: #d32f2f; margin-bottom: 30px; }
+        .buttons { display: flex; gap: 20px; align-items: center; }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #yesBtn { background-color: #4caf50; color: white; }
+        #noBtn { background-color: #f44336; color: white; position: relative; }
+        img { width: 200px; margin-bottom: 20px; border-radius: 15px; }
+    </style>
+</head>
+<body>
+
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4bm9oZzR4eGZ4bm9oZzR4eGZ4bm9oZzR4eGZ4bm9oZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Cat">
+    
+    <h1>Will you be my valentine? 🌹</h1>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="celebrate()">نعم</button>
+        <button id="noBtn" onmouseover="moveButton()">لا</button>
+    </div>
+
+    <script>
+        let yesSize = 1.2;
+
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            // جعل زر "لا" يهرب في أماكن عشوائية
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+
+            // تكبير زر "نعم" في كل مرة تحاول فيها الضغط على "لا"
+            yesSize += 0.3;
+            yesBtn.style.transform = `scale(${yesSize})`;
+        }
+
+        function celebrate() {
+            document.body.innerHTML = `
+                <h1 style="color: #d32f2f;">أنا أسعد شخص في العالم! ❤️✨</h1>
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnd4bm9oZzR4eGZ4bm9oZzR4eGZ4bm9oZzR4eGZ4bm9oZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/KztT2c4u8mYYUiMKdJ/giphy.gif">
+            `;
+        }
+    </script>
+</body>
+</html>
