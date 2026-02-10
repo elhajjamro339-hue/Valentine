@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Surprise</title>
+</head>
+<body style="text-align:center; background-color:#ffebee; padding-top:50px; font-family:sans-serif; overflow:hidden; direction: ltr;">
+
+    <h1 id="question" style="color:#d32f2f; font-size: 2.5rem;">Stop messing with me! 😼</h1>
+    
+    <div id="cat-container" style="margin: 20px auto; width: 300px; height: 300px; border: 5px solid red; border-radius: 15px; overflow: hidden; background: white;">
+        <img id="main-img" src="https://i.ibb.co/Y7YpYpS/cat-gun.png" alt="Angry Cat" style="width:100%; height:100%; object-fit:cover;">
+    </div>
+
+    <div style="margin-top: 30px;">
+        <button id="yesBtn" onclick="success()" style="padding:15px 40px; background-color:#4caf50; color:white; border:none; border-radius:10px; font-size:20px; cursor:pointer; transition: 0.2s;">نعم</button>
+        <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()" style="padding:15px 40px; background-color:#f44336; color:white; border:none; border-radius:10px; font-size:20px; position:absolute; cursor:pointer; transition:0.1s;">لا</button>
+    </div>
+
+    <script>
+        let yesScale = 1;
+
+        // وظيفة تحريك زر "لا" وتكبير زر "نعم"
+        function moveButton() {
+            const btnNo = document.getElementById('noBtn');
+            const btnYes = document.getElementById('yesBtn');
+
+            // تحريك زر "لا" لمكان عشوائي
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+            
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+
+            // تكبير زر "نعم" تدريجياً
+            yesScale += 0.4;
+            btnYes.style.transform = `scale(${yesScale})`;
+        }
+
+        // وظيفة تظهر عند الضغط على "نعم"
+        function success() {
+            document.body.innerHTML = `
+                <div style="margin-top: 50px;">
+                    <h1 style="color:#d32f2f; font-size: 3rem;">❤️ I knew you would say yes! ❤️</h1>
+                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/MDJ9IbM3vuzUtS20Kz/giphy.gif" style="width:350px; border-radius:20px; margin-top:20px;">
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>
