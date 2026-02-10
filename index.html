@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?</title>
+    <title>Valentine's Surprise</title>
     <style>
         body {
             background-color: #ffeef2;
@@ -13,65 +13,64 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
         }
-        #container { transition: all 0.3s; }
-        img { width: 200px; border-radius: 15px; margin-bottom: 20px; }
-        h1 { color: #d63384; }
-        .buttons { display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap; }
-        button {
-            padding: 10px 25px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        #yesBtn { background-color: #28a745; color: white; }
-        #noBtn { background-color: #dc3545; color: white; }
+        #container { max-width: 600px; padding: 20px; }
+        img { width: 280px; border-radius: 20px; border: 4px solid #ff4d6d; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        h1 { color: #d63384; font-size: 2rem; margin-bottom: 30px; }
+        .buttons { display: flex; gap: 20px; align-items: center; justify-content: center; }
+        #yesBtn { background-color: #28a745; color: white; padding: 10px 25px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+        #noBtn { background-color: #dc3545; color: white; padding: 10px 25px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="question-page">
-        <img id="display-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaHpxM2JidmZ0bmh6bmh6bmh6bmh6bmh6bmh6bmh6bmh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Cat">
-        <h1 id="question-text">Will you be my Valentine? 🌹</h1>
+    <div id="main-content">
+        <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaHpxM2JidmZ0bmh6bmh6bmh6bmh6bmh6bmh6bmh6bmh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/cLS1cfxvGOPVpf9g3y/giphy.gif">
+        <h1 id="main-text">Will you be my Valentine? 🌹</h1>
         
-        <div class="buttons">
-            <button id="yesBtn" onclick="celebrate()">Yes</button>
-            <button id="noBtn" onclick="makeYesBigger()">No</button>
+        <div class="buttons" id="btn-group">
+            <button id="yesBtn" onclick="showSuccess()">Yes</button>
+            <button id="noBtn" onclick="handleNo()">No</button>
         </div>
     </div>
 
     <div id="success-page" class="hidden">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpwaHpxM2JidmZ0bmh6bmh6bmh6bmh6bmh6bmh6bmh6bmh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KztT2c4u8mYYUiCiS0/giphy.gif" alt="Happy Dance">
-        <h1>Yaaaay! See you then! 🥰❤️</h1>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpwaHpxM2JidmZ0bmh6bmh6bmh6bmh6bmh6bmh6bmh6bmh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KztT2c4u8mYYUiCiS0/giphy.gif">
+        <h1>Yaaaay! Thank you for saying YES! ❤️🥰</h1>
     </div>
 
     <script>
-        let yesSize = 18;
-        let noClicks = 0;
-        const messages = ["Are you sure?", "Really??", "Think again!", "Don't do this to me :(", "I'm gonna cry...", "YES PLEASE!"];
+        let noCount = 0;
+        const messages = ["Are you sure?", "Really??", "Think again!", "Last chance...", "STOP MESSING WITH ME! 🔫"];
+        
+        // رابط صورة القطة بالمسدس (يمكنك استبداله برابط مباشر لصورتك إذا كانت مرفوعة)
+        const angryCatGif = "https://i.pinimg.com/originals/f4/be/da/f4bedae827021e10229f379201f9d45e.gif";
 
-        function makeYesBigger() {
-            noClicks++;
-            // تكبير حجم زر نعم
-            yesSize += 30; 
-            document.getElementById('yesBtn').style.fontSize = yesSize + "px";
-            document.getElementById('yesBtn').style.padding = (yesSize/2) + "px " + (yesSize) + "px";
+        function handleNo() {
+            noCount++;
             
-            // تغيير نص سؤال الـ No بشكل فكاهي
-            if(noClicks < messages.length) {
-                document.getElementById('noBtn').innerText = messages[noClicks];
+            // تكبير زر نعم
+            let yesBtn = document.getElementById('yesBtn');
+            let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 25) + "px";
+            yesBtn.style.padding = (currentSize) + "px " + (currentSize * 1.5) + "px";
+
+            // تغيير النص والصورة في المرحلة الأخيرة
+            if (noCount < messages.length) {
+                document.getElementById('noBtn').innerText = messages[noCount - 1];
             } else {
-                document.getElementById('noBtn').innerText = "Just say Yes! ❤️";
+                document.getElementById('noBtn').innerText = messages[messages.length - 1];
+                document.getElementById('main-text').innerText = "Stop messing with me! 😼";
+                document.getElementById('main-gif').src = angryCatGif;
+                document.getElementById('noBtn').style.display = "none"; // إخفاء زر لا تماماً بعد الغضب
             }
         }
 
-        function celebrate() {
-            document.getElementById('question-page').classList.add('hidden');
+        function showSuccess() {
+            document.getElementById('main-content').classList.add('hidden');
             document.getElementById('success-page').classList.remove('hidden');
         }
     </script>
