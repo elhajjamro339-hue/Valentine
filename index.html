@@ -3,76 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Surprise</title>
+    <title>Will You Be My Valentine?</title>
     <style>
         body {
-            background-color: #ffeef2;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6; /* لون وردي فاتح */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
             text-align: center;
         }
-        #container { max-width: 600px; padding: 20px; }
-        img { width: 280px; border-radius: 20px; border: 4px solid #ff4d6d; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        h1 { color: #d63384; font-size: 2rem; margin-bottom: 30px; }
-        .buttons { display: flex; gap: 20px; align-items: center; justify-content: center; }
-        #yesBtn { background-color: #28a745; color: white; padding: 10px 25px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; transition: 0.2s; }
-        #noBtn { background-color: #dc3545; color: white; padding: 10px 25px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; }
-        .hidden { display: none; }
+
+        #container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5rem;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            position: relative;
+        }
+
+        img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <div id="main-content">
-        <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaHpxM2JidmZ0bmh6bmh6bmh6bmh6bmh6bmh6bmh6bmh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/cLS1cfxvGOPVpf9g3y/giphy.gif">
-        <h1 id="main-text">Will you be my Valentine? 🌹</h1>
+    <div id="container">
+        <img id="displayImg" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaW94am93bmZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6JnB0PWFjdGl2ZV9mZWVk/c76IJLufpN61i/giphy.gif" alt="Cute gif">
         
-        <div class="buttons" id="btn-group">
-            <button id="yesBtn" onclick="showSuccess()">Yes</button>
-            <button id="noBtn" onclick="handleNo()">No</button>
+        <h1 id="question">Will you be my Valentine? ❤️</h1>
+
+        <div class="buttons" id="buttonGroup">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
         </div>
     </div>
 
-    <div id="success-page" class="hidden">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpwaHpxM2JidmZ0bmh6bmh6bmh6bmh6bmh6bmh6bmh6bmh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KztT2c4u8mYYUiCiS0/giphy.gif">
-        <h1>Yaaaay! Thank you for saying YES! ❤️🥰</h1>
-    </div>
-
     <script>
-        let noCount = 0;
-        const messages = ["Are you sure?", "Really??", "Think again!", "Last chance...", "STOP MESSING WITH ME! 🔫"];
-        
-        // رابط صورة القطة بالمسدس (يمكنك استبداله برابط مباشر لصورتك إذا كانت مرفوعة)
-        const angryCatGif = "https://tenor.com/view/cat-gun-gif-8510554628372069925";
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const question = document.getElementById('question');
+        const displayImg = document.getElementById('displayImg');
+        const buttonGroup = document.getElementById('buttonGroup');
 
-        function handleNo() {
-            noCount++;
+        let yesFontSize = 1.2;
+
+        // ميزة هروب زر "لا"
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
-            // تكبير زر نعم
-            let yesBtn = document.getElementById('yesBtn');
-            let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
-            yesBtn.style.fontSize = (currentSize + 25) + "px";
-            yesBtn.style.padding = (currentSize) + "px " + (currentSize * 1.5) + "px";
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        });
 
-            // تغيير النص والصورة في المرحلة الأخيرة
-            if (noCount < messages.length) {
-                document.getElementById('noBtn').innerText = messages[noCount - 1];
-            } else {
-                document.getElementById('noBtn').innerText = messages[messages.length - 1];
-                document.getElementById('main-text').innerText = "Stop messing with me! 😼";
-                document.getElementById('main-gif').src = angryCatGif;
-                document.getElementById('noBtn').style.display = "none"; // إخفاء زر لا تماماً بعد الغضب
-            }
-        }
+        // عند الضغط على "لا" (إذا استطاع الشخص لمسها) تزيد حجم زر "نعم"
+        noBtn.addEventListener('click', () => {
+            yesFontSize += 0.5;
+            yesBtn.style.fontSize = `${yesFontSize}rem`;
+            yesBtn.style.padding = `${15 * yesFontSize}px ${30 * yesFontSize}px`;
+        });
 
-        function showSuccess() {
-            document.getElementById('main-content').classList.add('hidden');
-            document.getElementById('success-page').classList.remove('hidden');
+        // عند الضغط على "نعم"
+        yesBtn.addEventListener('click', () => {
+            question.innerText = "Yayyy! I love you! ❤️";
+            displayImg.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaW94am93bmZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6JnB0PWFjdGl2ZV9mZWVk/l4pTdcifPKUYM/giphy.gif"; // صورة احتفال
+            buttonGroup.classList.add('hidden');
+            
+            // إضافة بعض القلوب المتساقطة (اختياري)
+            setInterval(createHeart, 300);
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-20px';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.animation = `fall ${Math.random() * 2 + 3}s linear`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
     </script>
+
+    <style>
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+            }
+        }
+    </style>
+
 </body>
 </html>
