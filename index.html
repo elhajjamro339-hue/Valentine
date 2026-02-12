@@ -1,142 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine?</title>
-
+<title>Valentine's Day</title>
 <style>
-body{
-    margin:0;
-    padding:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-    font-family:Arial, sans-serif;
-    overflow:hidden;
-    text-align:center;
-}
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #ffe6f2;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
 
-.container{
-    position:relative;
-}
+    #container {
+        background: white;
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 90%;
+    }
 
-h1{
-    color:white;
-    font-size:28px;
-    margin-bottom:30px;
-}
+    img {
+        width: 250px;
+        height: auto;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
 
-.buttons{
-    position:relative;
-    height:200px;
-}
+    h1 {
+        color: #333;
+        margin-bottom: 25px;
+        min-height: 60px;
+    }
 
-button{
-    padding:15px 30px;
-    font-size:18px;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    position:absolute;
-    transition:0.3s;
-}
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
 
-#yesBtn{
-    background-color:#ff4d6d;
-    color:white;
-    left:50%;
-    transform:translateX(-120%);
-}
+    button {
+        padding: 12px 30px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s, font-size 0.2s;
+        font-weight: bold;
+        color: white;
+    }
 
-#noBtn{
-    background-color:white;
-    color:#ff4d6d;
-    left:50%;
-    transform:translateX(20%);
-}
+    #yesBtn {
+        background-color: #28a745; /* أخضر */
+    }
 
-.heart{
-    position:absolute;
-    font-size:24px;
-    animation:float 4s linear infinite;
-}
+    #noBtn {
+        background-color: #dc3545; /* أحمر */
+    }
 
-@keyframes float{
-    from{transform:translateY(100vh); opacity:1;}
-    to{transform:translateY(-10vh); opacity:0;}
-}
+    .hidden {
+        display: none;
+    }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-    <h1 id="question">Will you be my Valentine? 💖</h1>
+<div id="container">
+    <img id="mainGif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpwaW94am93bmZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6JnB0PWFjdGl2ZV9mZWVk/c76IJLufpN61i/giphy.gif" alt="GIF">
+    
+    <h1 id="questionText">Will you be my Valentine? ❤️</h1>
 
     <div class="buttons">
-        <button id="yesBtn">Yes ❤️</button>
-        <button id="noBtn">No 💔</button>
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
     </div>
 </div>
 
 <script>
-let yesBtn = document.getElementById("yesBtn");
-let noBtn = document.getElementById("noBtn");
-let question = document.getElementById("question");
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const questionText = document.getElementById('questionText');
+const mainGif = document.getElementById('mainGif');
+
+// الرسائل عند الضغط على No
+const noMessages = [
+    "Are you sure?",
+    "Really??",
+    "Think again!",
+    "Last chance!"
+];
 
 let noCount = 0;
 
-noBtn.addEventListener("click", function(){
-
-    noCount++;
-
-    // تكبير زر نعم
-    let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
-    yesBtn.style.fontSize = (currentSize + 5) + "px";
-
-    // تغيير النص
-    if(noCount == 1){
-        question.innerHTML = "Are you sure? 🥺";
-    } else if(noCount == 2){
-        question.innerHTML = "Really sure? 😢";
-    } else if(noCount == 3){
-        question.innerHTML = "Think again ❤️";
+noBtn.addEventListener('click', () => {
+    if (noCount < noMessages.length) {
+        // عرض الرسالة المناسبة
+        questionText.innerText = noMessages[noCount];
+        noCount++;
     } else {
-        question.innerHTML = "You can't escape 😏";
+        // آخر ضغط No: إظهار GIF وعبارة Stop messing with me
+        mainGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpwaW94am93bmZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6eGZ6JnB0PWFjdGl2ZV9mZWVk/ICOgUNoJGvSU0/giphy.gif";
+        questionText.innerText = "Stop messing with me 😠";
+
+        // إخفاء زر No
+        noBtn.classList.add('hidden');
     }
-
-    // تحريك زر لا عشوائياً (مناسب للهاتف)
-    let randomX = Math.random() * (window.innerWidth - 100);
-    let randomY = Math.random() * (window.innerHeight - 50);
-
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
 });
 
-yesBtn.addEventListener("click", function(){
-    document.body.innerHTML = "<h1 style='color:white;'>Yaaay ❤️ You made me the happiest person 🥰</h1>";
-    document.body.style.background = "#ff4d6d";
-
-    // قلوب متحركة
-    setInterval(createHeart, 300);
-});
-
-function createHeart(){
-    let heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 20) + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 4000);
-}
-</script>
-
-</body>
-</html>
+yesBtn.addEventListener('click', () => {
+    // عند الضغط على
